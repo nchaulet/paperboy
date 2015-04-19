@@ -1,0 +1,19 @@
+{
+  "name": "paperboy",
+  "version": "0.0.1",
+  "description": "your personnal paperboy",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nchaulet/paperboy.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nchaulet/paperboy/issues"
+  },
+  "homepage": "https://github.com/nchaulet/paperboy"
+}
