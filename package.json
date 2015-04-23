@@ -4,7 +4,8 @@
   "description": "your personnal paperboy",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "./node_modules/.bin/nodemon index.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +16,12 @@
   "bugs": {
     "url": "https://github.com/nchaulet/paperboy/issues"
   },
-  "homepage": "https://github.com/nchaulet/paperboy"
+  "homepage": "https://github.com/nchaulet/paperboy",
+  "devDependencies": {
+    "nodemon": "^1.3.7"
+  },
+  "dependencies": {
+    "babel": "^5.1.11",
+    "twitter": "^1.2.5"
+  }
 }
