@@ -12,7 +12,6 @@ class Twitter {
 
             client.get('favorites/list', (error, tweets, response) => {
                 if(error) reject(error);
-
                 tweets = tweets.map((tweet) => {
                     return {
                         id: tweet.id,
