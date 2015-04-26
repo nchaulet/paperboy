@@ -4,7 +4,11 @@ class DataStore {
     }
 
     init() {
-        if (!this.knex.schema.hasTable('saved_item')) {
+        this.knex.schema.hasTable('saved_item').then((exists) => {
+            if (exists) {
+                return;
+            }
+
             this.knex.schema.createTable('saved_item', function (table) {
               table.increments();
               table.string('external_id');
@@ -17,12 +21,12 @@ class DataStore {
             }, function() {
                 console.log('Database creation error');
             });
-        }
+        });
     }
 
     getItem(id, provider) {
         return this.knex.select('*').from('saved_item').where({
-            external_id: id,
+            external_id: id.toString(),
             provider: provider
         }).then((items) => {
             if (items.length > 0) {
@@ -30,6 +34,14 @@ class DataStore {
             }
             return null;
         })
+    }
+
+    sendMessage() {
+        this.knex('saved_item').update({
+            'sent': true
+        }).then(() => {
+
+        });
     }
 
     createItem(id, provider, data) {
@@ -43,7 +55,13 @@ class DataStore {
     }
 
     getNotSentItems() {
-        return this.knex.select('*').from('saved_item').where('sent', '!=', '1');
+        return this.knex.select('*').from('saved_item').where('sent', '!=', '1').then((items) => {
+            items.forEach((item) => {
+                item.data = JSON.parse(item.data);
+            });
+
+            return items;
+        });
     }
 }
 
