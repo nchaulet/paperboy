@@ -1,0 +1,9 @@
+div
+  h1 Paperboy Report
+  ul
+    each item in items
+      li
+        div
+          = item.data.text
+          br
+          a(href=item.data.link) See more
