@@ -48,7 +48,8 @@ class DataStore {
         this.knex('saved_item').insert({
             external_id: id.toString(),
             provider: provider,
-            data: JSON.stringify(data)
+            data: JSON.stringify(data),
+            sent: false
         }).then((id) => {
         }, (error) => {
         });

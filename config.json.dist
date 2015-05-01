@@ -1,0 +1,17 @@
+{
+    "user_email": "REPLACE",
+    "twitter_config" : {
+        "consumer_key": "REPLACE",
+        "consumer_secret": "REPLACE",
+        "access_token_key": "REPLACE",
+        "access_token_secret": "REPLACE"
+    },
+    "smtp_config": {
+        "host": "REPLACE",
+        "port": 25,
+        "auth": {
+            "user": "REPLACE",
+            "pass": "REPLACE"
+        }
+    }
+}
