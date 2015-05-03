@@ -12,7 +12,7 @@ class Twitter {
             client.get('favorites/list', (error, tweets, response) => {
                 if(error) reject(error);
 
-                if (!tweets) {
+                if (!tweets instanceof Array) {
                     return [];
                 }
 
