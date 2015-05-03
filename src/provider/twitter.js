@@ -11,6 +11,11 @@ class Twitter {
 
             client.get('favorites/list', (error, tweets, response) => {
                 if(error) reject(error);
+
+                if (!tweets) {
+                    return [];
+                }
+
                 tweets = tweets.map((tweet) => {
                     return {
                         id: tweet.id_str,

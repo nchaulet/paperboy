@@ -1,0 +1,7 @@
+ROM iojs
+
+ADD . /app
+WORKDIR /app
+RUN npm install
+RUN npm install -g babel forever
+CMD babel-node index.js

@@ -6,6 +6,18 @@ import Twitter from './src/provider/twitter';
 import config from './config.json';
 import Knex from 'knex';
 import schedule from 'node-schedule';
+import winston from 'winston';
+
+winston.remove(winston.transports.Console);
+winston.add(winston.transports.Console, {
+    timestamp: true,
+    colorize: true
+});
+
+winston.info('Hello again distributed logs');
+
+var logger = winston;
+
 
 var twitter = new Twitter(config.twitter_config);
 
@@ -43,12 +55,12 @@ var sendMail = function() {
 };
 
 schedule.scheduleJob('* */2 * * *', () => {
-    console.log('Fetch Data');
+    logger.info('Fetch Data');
     fetchData();
 });
 
 schedule.scheduleJob('30 8 * * *', () => {
-    console.log('Send Report');
+    logger.info('Send report');
     sendMail();
 });
 
