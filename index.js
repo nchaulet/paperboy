@@ -54,7 +54,7 @@ var sendMail = function() {
     });
 };
 
-schedule.scheduleJob('* */2 * * *', () => {
+schedule.scheduleJob('0 */2 * * *', () => {
     logger.info('Fetch Data');
     fetchData();
 });
