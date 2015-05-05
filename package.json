@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "babel": "^5.1.11",
+    "github": "^0.2.4",
     "jade": "^1.9.2",
     "knex": "^0.7.6",
     "node-schedule": "^0.2.6",

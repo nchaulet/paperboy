@@ -2,11 +2,13 @@ import DataStore from './src/datastore.js';
 import Mailer from './src/mailer.js';
 import nodemailer from 'nodemailer';
 import smtpTransport from 'nodemailer-smtp-transport';
-import Twitter from './src/provider/twitter';
+import TwitterProvider from './src/provider/twitter';
+import GithubProvider from './src/provider/github';
 import config from './config.json';
 import Knex from 'knex';
 import schedule from 'node-schedule';
 import winston from 'winston';
+import GitHubApi from 'github';
 
 winston.remove(winston.transports.Console);
 winston.add(winston.transports.Console, {
@@ -19,7 +21,7 @@ winston.info('Hello again distributed logs');
 var logger = winston;
 
 
-var twitter = new Twitter(config.twitter_config);
+
 
 var knex = Knex({
   client: 'sqlite3',
@@ -33,12 +35,26 @@ dataStore.init();
 var transport = nodemailer.createTransport(smtpTransport(config.smtp_config));
 var mailer = new Mailer(transport);
 
+
+var twitter = new TwitterProvider(config.twitter_config);
+var github = new GithubProvider(config.github_config);
+
 var fetchData = function() {
     twitter.getData().then(function(tweets) {
         tweets.forEach((tweet) => {
             dataStore.getItem(tweet.id, 'twitter').then((item) => {
                 if (!item) {
                     dataStore.createItem(tweet.id, 'twitter', tweet);
+                }
+            });
+        });
+    });
+
+    github.getData().then((repos) => {
+        tweets.forEach((repo) => {
+            dataStore.getItem(repo.id, 'github').then((item) => {
+                if (!item) {
+                    dataStore.createItem(repo.id, 'github', repo);
                 }
             });
         });

@@ -6,6 +6,9 @@
         "access_token_key": "REPLACE",
         "access_token_secret": "REPLACE"
     },
+    "github_config": {
+        "user": "github_user"
+    }
     "smtp_config": {
         "host": "REPLACE",
         "port": 25,
