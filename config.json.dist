@@ -1,5 +1,6 @@
 {
     "user_email": "REPLACE",
+    "db_path": "/data/db.sqlite",
     "twitter_config" : {
         "consumer_key": "REPLACE",
         "consumer_secret": "REPLACE",
@@ -8,7 +9,7 @@
     },
     "github_config": {
         "user": "github_user"
-    }
+    },
     "smtp_config": {
         "host": "REPLACE",
         "port": 25,

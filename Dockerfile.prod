@@ -4,4 +4,5 @@ ADD . /app
 WORKDIR /app
 RUN npm install
 RUN npm install -g babel forever
+VOLUME ["/data"]
 CMD babel-node index.js

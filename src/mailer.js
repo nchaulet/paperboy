@@ -1,14 +1,23 @@
 import jade from 'jade';
+import _ from 'lodash';
 
 class Mailer {
     constructor(transport) {
         this.transport = transport;
     }
 
-    sendReport(mail, items) {
-        var html = jade.renderFile('template/mail.jade', {
-            items: items
+    _render(items) {
+        items = _.groupBy(items, 'provider');
+        var providers = _.keys(items);
+
+        return jade.renderFile('template/mail.jade', {
+            items: items,
+            providers: providers
         });
+    }
+
+    sendReport(mail, items) {
+        var html = this._render(items);
 
         var mailOptions = {
             from: 'Paperboy',
@@ -22,7 +31,6 @@ class Mailer {
                 throw error;
             }
         });
-
     }
 }
 

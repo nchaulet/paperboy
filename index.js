@@ -16,17 +16,14 @@ winston.add(winston.transports.Console, {
     colorize: true
 });
 
-winston.info('Hello again distributed logs');
+winston.info('Launch paperboy');
 
 var logger = winston;
-
-
-
 
 var knex = Knex({
   client: 'sqlite3',
   connection: {
-    filename: "./db.sqlite"
+    filename: config.db_path
   }
 });
 
@@ -51,7 +48,7 @@ var fetchData = function() {
     });
 
     github.getData().then((repos) => {
-        tweets.forEach((repo) => {
+        repos.forEach((repo) => {
             dataStore.getItem(repo.id, 'github').then((item) => {
                 if (!item) {
                     dataStore.createItem(repo.id, 'github', repo);
@@ -65,7 +62,6 @@ var sendMail = function() {
     dataStore.getNotSentItems().then((items) => {
         if (items.length > 0) {
             mailer.sendReport(config.user_email, items);
-            dataStore.sendMessage();
         }
     });
 };
