@@ -36,7 +36,7 @@ class DataStore {
         })
     }
 
-    sendMessage() {
+    sendMessages() {
         this.knex('saved_item').update({
             'sent': true
         }).then(() => {

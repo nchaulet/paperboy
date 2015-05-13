@@ -62,6 +62,7 @@ var sendMail = function() {
     dataStore.getNotSentItems().then((items) => {
         if (items.length > 0) {
             mailer.sendReport(config.user_email, items);
+            dataStore.sendMessages();
         }
     });
 };

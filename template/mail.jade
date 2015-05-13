@@ -3,9 +3,9 @@ div
   ul
     each provider in providers
       h2= provider
-        each item in items[provider]
-          li
-            div
-              = item.data.text
-              br
-              a(href=item.data.link) See more
+      each item in items[provider]
+        li
+          div
+            = item.data.text
+            br
+            a(href=item.data.link) See more
