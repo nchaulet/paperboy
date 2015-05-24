@@ -6,6 +6,14 @@ class Github {
         this.user = config.user;
     }
 
+    getInfo() {
+        return {
+            'slug': 'github',
+            'name': 'Github',
+            'logo': 'https://github.com/favicon.ico'
+        };
+    }
+
     getData() {
         return new Promise((resolve, reject) => {
             var github = new GitHubApi({

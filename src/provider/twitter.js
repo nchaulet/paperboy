@@ -5,6 +5,14 @@ class Twitter {
         this.config = config;
     }
 
+    getInfo() {
+        return {
+            'slug': 'twitter',
+            'name': 'Twitter',
+            'logo': 'https://twitter.com/favicon.ico'
+        };
+    }
+
     getData() {
         return new Promise((resolve, reject) => {
             var client = new TwitterClient(this.config);
