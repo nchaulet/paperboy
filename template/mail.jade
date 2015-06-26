@@ -1,11 +1,19 @@
-div
-  h1 Paperboy Report
-  ul
-    each provider in providers
-      h2= provider
-      each item in items[provider]
-        li
-          div
-            = item.data.text
-            br
-            a(href=item.data.link) See more
+html
+  head
+    style.
+      h4 {
+        margin: 0;
+      }
+  body
+    div
+      h1 Paperboy Report
+      ul
+        each provider in providers
+          h2= provider
+          each item in items[provider]
+            li
+              div
+                h4= item.data.title
+                = item.data.text
+                br
+                a(href=item.data.link) See more
