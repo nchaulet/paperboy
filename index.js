@@ -1,15 +1,16 @@
-import DataStore from './src/datastore.js';
-import Mailer from './src/mailer.js';
 import nodemailer from 'nodemailer';
 import smtpTransport from 'nodemailer-smtp-transport';
-import TwitterProvider from './src/provider/twitter';
-import GithubProvider from './src/provider/github';
-import Engine from './src/engine';
-import config from './config.json';
 import Knex from 'knex';
 import schedule from 'node-schedule';
 import winston from 'winston';
-import GitHubApi from 'github';
+
+import DataStore from 'src/datastore.js';
+import Mailer from 'src/mailer.js';
+import TwitterProvider from 'src/provider/twitter';
+import GithubProvider from 'src/provider/github';
+import Engine from 'src/engine';
+import config from 'config.json';
+import SendMailJob from 'src/jobs/SendMailJob';
 
 winston.remove(winston.transports.Console);
 winston.add(winston.transports.Console, {
@@ -17,9 +18,9 @@ winston.add(winston.transports.Console, {
     colorize: true
 });
 
-winston.info('Launch paperboy');
-
 var logger = winston;
+
+logger.info('Launch paperboy');
 
 var knex = Knex({
   client: 'sqlite3',
@@ -38,22 +39,17 @@ var engine = new Engine(dataStore);
 engine.addProvider(new TwitterProvider(config.twitter_config));
 engine.addProvider(new GithubProvider(config.github_config));
 
-var sendMail = function() {
-    dataStore.getNotSentItems().then((items) => {
-        if (items.length > 0) {
-            mailer.sendReport(config.user_email, items);
-            dataStore.sendMessages();
-        }
-    });
+var sendMailJob = new SendMailJob(dataStore, mailer, logger);
+var user = {
+  email: config.user_email
 };
 
 schedule.scheduleJob('0 */2 * * *', () => {
-    logger.info('Fetch Data');
+    logger.info('fetch data job');
     engine.run();
 });
 
 schedule.scheduleJob('30 8 * * *', () => {
-    logger.info('Send report');
-    sendMail();
+    logger.info('send mail job');
+    sendMailJob.process(user);
 });
-
