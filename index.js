@@ -10,7 +10,8 @@ import TwitterProvider from 'src/provider/twitter';
 import GithubProvider from 'src/provider/github';
 import Engine from 'src/engine';
 import config from 'config.json';
-import SendMailJob from 'src/jobs/SendMailJob';
+import SendMailJob from 'src/jobs/sendmailjob';
+import Server from 'src/server';
 
 winston.remove(winston.transports.Console);
 winston.add(winston.transports.Console, {
@@ -53,3 +54,6 @@ schedule.scheduleJob('30 8 * * *', () => {
     logger.info('send mail job');
     sendMailJob.process(user);
 });
+
+// Server
+// Server();
