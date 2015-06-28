@@ -56,4 +56,4 @@ schedule.scheduleJob('30 8 * * *', () => {
 });
 
 // Server
-// Server();
+Server(dataStore);

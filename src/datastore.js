@@ -64,6 +64,28 @@ class DataStore {
             return items;
         });
     }
+
+    countTotalItems() {
+        return this.knex
+            .count('id')
+            .from('saved_item');
+    }
+
+    getItems(page = 1, nbByPage = 10) {
+        return this.knex
+            .select('*')
+            .from('saved_item')
+            .limit(nbByPage)
+            .offset((page - 1) * nbByPage)
+            .orderBy('id', 'DESC')
+            .then((items) => {
+                items.forEach((item) => {
+                    item.data = JSON.parse(item.data);
+                });
+
+                return items;
+            });
+    }
 }
 
 export default DataStore;

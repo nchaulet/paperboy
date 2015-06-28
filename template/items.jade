@@ -1,0 +1,14 @@
+html
+  head
+    link(href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css", rel="stylesheet")
+  body
+    div.container
+      h1 Paperboy Report
+      ul
+        each item in items
+          li
+            div
+              h4= item.data.title
+              = item.data.text
+              br
+              a(href=item.data.link) See more
