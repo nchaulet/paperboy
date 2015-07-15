@@ -12,3 +12,13 @@ html
               = item.data.text
               br
               a(href=item.data.link) See more
+      nav.text-center
+        ul.pagination
+          if page > 1
+            li
+              a(href="/?page=" + (page - 1)) <
+          li
+            a(href="#")=page
+          if total >= page * nbByPage
+            li
+              a(href="/?page=" + (page + 1)) >

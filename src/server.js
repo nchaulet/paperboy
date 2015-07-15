@@ -8,19 +8,21 @@ var Server = function(dataStore) {
 
     app.get('/', (req, res) => {
 
-        var page = req.query.page || 1;
-
-        dataStore.getItems(page).then((items) => {
+        var page = parseInt(req.query.page, 10) || 1;
+        var nbByPage = 20;
+        dataStore.getItems(page, nbByPage).then((items) => {
             dataStore.countTotalItems().then((total) => {
                 res.render('items', {
                     items: items,
                     total: total,
+                    nbByPage: nbByPage,
                     page: page
                 });
             });
         });
     });
 
+    console.log('Server listening on port 8080');
     app.listen(8080);
 };
 

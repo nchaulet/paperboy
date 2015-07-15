@@ -67,8 +67,11 @@ class DataStore {
 
     countTotalItems() {
         return this.knex
-            .count('id')
-            .from('saved_item');
+            .count('id as count')
+            .from('saved_item')
+            .then(function(results) {
+                return results[0].count;
+            });
     }
 
     getItems(page = 1, nbByPage = 10) {
