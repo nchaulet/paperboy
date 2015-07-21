@@ -21,7 +21,7 @@ class Twitter {
                 if(error) reject(error);
 
                 if (!tweets instanceof Array) {
-                    return [];
+                    tweets = [];
                 }
 
                 tweets = tweets.map((tweet) => {

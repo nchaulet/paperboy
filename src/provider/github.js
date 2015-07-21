@@ -24,6 +24,11 @@ class Github {
                 if (error) {
                     return reject(error);
                 }
+
+                if (!res instanceof Array) {
+                    res = [];
+                }
+
                 var repos = res.map((repo) => {
                     return {
                         id: repo.id,
