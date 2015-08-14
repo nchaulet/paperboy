@@ -5,4 +5,4 @@ WORKDIR /app
 RUN npm install
 RUN npm install -g babel forever
 VOLUME ["/data"]
-CMD NODE_PATH=. babel-node index.js
+CMD NODE_PATH=. node index.js
