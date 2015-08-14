@@ -44,15 +44,11 @@ var sendMailJob = new SendMailJob(dataStore, mailer, logger);
 var user = {
   email: config.user_email
 };
-sendMailJob.process(user);
+
 schedule.scheduleJob('0 */2 * * *', () => {
     logger.info('fetch data job');
     engine.run();
 });
-
-setInterval(() => {
-  engine.run();
-}, 10 * 1000);
 
 schedule.scheduleJob('30 8 * * *', () => {
     logger.info('send mail job');
