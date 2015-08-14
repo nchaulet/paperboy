@@ -18,7 +18,9 @@ class Twitter {
             var client = new TwitterClient(this.config);
 
             client.get('favorites/list', (error, tweets, response) => {
-                if(error) reject(error);
+                if(error) {
+                    return reject(error);
+                }
 
                 if (!tweets instanceof Array) {
                     tweets = [];

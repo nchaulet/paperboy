@@ -1,4 +1,5 @@
-FROM iojs
+FROM node:0.12
+
 WORKDIR /app
 RUN npm install -g nodemon babel
 VOLUME ["/data"]
