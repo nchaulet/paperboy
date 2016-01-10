@@ -1,37 +1,40 @@
 import jade from 'jade';
 import _ from 'lodash';
+import moment from 'moment';
 
 class Mailer {
-    constructor(transport) {
-        this.transport = transport;
-    }
+  constructor(transport) {
+    this.transport = transport;
+  }
 
-    _render(items) {
-        items = _.groupBy(items, 'provider');
-        var providers = _.keys(items);
+  _render(items) {
+    items = _.groupBy(items, 'provider');
+    const providers = _.keys(items);
 
-        return jade.renderFile('template/mail.jade', {
-            items: items,
-            providers: providers
-        });
-    }
+    return jade.renderFile('template/mail.jade', {
+      items: items,
+      providers: providers
+    });
+  }
 
-    sendReport(mail, items) {
-        var html = this._render(items);
+  sendReport(mail, items) {
+    const html = this._render(items);
 
-        var mailOptions = {
-            from: 'Paperboy',
-            to: mail,
-            subject: 'Paperboy Report ✔',
-            html: html
-        };
+    const todayDate = moment().format('DD/MM');
 
-        this.transport.sendMail(mailOptions, function(error, info){
-            if(error){
-                throw error;
-            }
-        });
-    }
+    const mailOptions = {
+      from: 'Paperboy',
+      to: mail,
+      subject: `Paperboy Report ${todayDate} ✔`,
+      html: html
+    };
+
+    this.transport.sendMail(mailOptions, (error, info) => {
+      if(error){
+        throw error;
+      }
+    });
+  }
 }
 
 export default Mailer;
