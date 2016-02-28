@@ -45,7 +45,7 @@ var user = {
   email: config.user_email
 };
 
-schedule.scheduleJob('0 */2 * * *', () => {
+schedule.scheduleJob('0 */1 * * *', () => {
     logger.info('fetch data job');
     engine.run();
 });

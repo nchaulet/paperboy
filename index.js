@@ -1,4 +1,2 @@
-require("babel/register")({
-  sourceMap: "inline"
-});
+require("babel-register");
 require('src/index.js');
