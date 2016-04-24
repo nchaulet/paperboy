@@ -31,7 +31,6 @@ var knex = Knex({
 });
 
 var dataStore = new DataStore(knex);
-dataStore.init();
 var transport = nodemailer.createTransport(smtpTransport(config.smtp_config));
 var mailer = new Mailer(transport);
 

@@ -16,7 +16,6 @@ class Twitter {
     getData() {
         return new Promise((resolve, reject) => {
             var client = new TwitterClient(this.config);
-
             client.get('favorites/list', (error, tweets, response) => {
                 if(error) {
                     return reject(error);
@@ -30,8 +29,10 @@ class Twitter {
                     return {
                         id: tweet.id_str,
                         text: tweet.text,
-                        userName: tweet.user.name,
-                        link: 'https://twitter.com/' + tweet.user.screen_name + '/status/' + tweet.id_str
+                        link: 'https://twitter.com/' + tweet.user.screen_name + '/status/' + tweet.id_str,
+                        extra: {
+                            userName: tweet.user.name
+                        }
                     };
                 });
 
