@@ -8,6 +8,7 @@ RUN npm install
 RUN npm install -g babel
 VOLUME ["/data"]
 ADD . /app
+RUN npm run build
 CMD NODE_PATH=. node index.js
 
 EXPOSE 8080

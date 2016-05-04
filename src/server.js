@@ -8,16 +8,20 @@ const Server = function(dataStore) {
 
   app.set('views', './template')
   app.set('view engine', 'jade');
-
+  app.use('/dist', express.static('dist'));
   app.get('/', (req, res) => {
     const page = parseInt(req.query.page, 10) || 1;
     const nbByPage = 20;
     dataStore.getItems(page, nbByPage).then((items) => {
       dataStore.countTotalItems().then((total) => {
+        const PROPS = {
+          items: items,
+          page: page
+        };
         const body = ReactDOMServer.renderToString(
-          <App items={items} page={page} />
+          React.createElement(App, PROPS)
         );
-        res.render('index', { body: body});
+        res.render('index', { body: body, props: PROPS});
       });
     });
   });
@@ -25,7 +29,13 @@ const Server = function(dataStore) {
   app.get('/api/items', (req, res, next) => {
     const page = parseInt(req.query.page, 10) || 1;
     const nbByPage = 20;
-    dataStore.getItems(page, nbByPage).then((items) => {
+
+    const filters = {};
+    if (req.query.provider) {
+      filters.provider = req.query.provider;
+    }
+
+    dataStore.getItems(page, nbByPage, filters).then((items) => {
         dataStore.countTotalItems().then((total) => {
             res.send({
                 data: items,
