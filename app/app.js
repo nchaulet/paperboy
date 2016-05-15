@@ -1,40 +1,48 @@
 import React from "react";
+import {fetchPage} from "./actionsCreator";
+import ItemsList from './container/items';
+import { connect } from 'react-redux';
 
-export default function(props) {
-  const {items, page} = props;
+class App extends React.Component {
+  handlePageClick(event, page) {
+    event.preventDefault();
+    this.props.dispatch(fetchPage(page));
+  }
 
-  return (
-    <div className="container">
-      <style>
-        {`
-          .items-listing--item {padding: 5px;}
-          .items-listing--item:nth-child(odd) {background: #FBFBFB}
-        `}
-      </style>
-      <h1>Paperboy</h1>
-      <div className="items-listing">
-        {props.items.map(item => {
-          return (
-            <div className="items-listing--item" key={item.id}>
-              <div>
-                {item.data.title ? item.data.title + " : " : ""}
-                {item.data.text}
-                <br/>
-                <a href={item.data.link}>See more</a>
-              </div>
-            </div>
-          );
-        })}
+  render() {
+    const {items, page, fetching} = this.props;
+
+    return (
+      <div className="container">
+        <style>
+          {`
+            .items-listing--item {padding: 5px;}
+            .items-listing--item:nth-child(odd) {background: #FBFBFB}
+          `}
+        </style>
+        <h1>Paperboy</h1>
+        {fetching ?
+          "Loading" :
+          <ItemsList items={items} page={page} onPageClick={this.handlePageClick.bind(this)} />
+        }
       </div>
-      <nav className="text-center">
-        <ul className="pagination">
-          {page > 1 ? (
-            <li><a href={`/?page=${page - 1}`}>{page - 1}</a></li>
-          ) : ""}
-          <li><a>{page}</a></li>
-          <li><a href={`/?page=${page + 1}`}>{page + 1}</a></li>
-        </ul>
-      </nav>
-    </div>
-  );
+    );
+  }
+}
+
+function stateToProps(state) {
+  return {
+    items: state.items.get('items'),
+    fetching: state.items.get('fetching'),
+    page: state.items.get('page')
+  };
 };
+
+function mapDispatchToProps(dispatch) {
+  return {
+    dispatch: dispatch
+  };
+};
+
+export default connect(stateToProps, mapDispatchToProps)(App);
+

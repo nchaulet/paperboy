@@ -1,7 +1,22 @@
 import App from "./app";
 import React from "react";
 import ReactDOM from "react-dom";
+import { Provider } from 'react-redux';
+import createStore from './store';
+import {Map, List} from "immutable";
 
-const Props = window.__PROPS;
+const state = {
+  items: new Map({
+    items: window.__STATE.items.items,
+    fetching: window.__STATE.items.fetching,
+    page: window.__STATE.items.page
+  })
+};
 
-ReactDOM.render(React.createElement(App, Props), document.getElementById('root'));
+const store = createStore(state);
+
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>
+, document.getElementById('root'));

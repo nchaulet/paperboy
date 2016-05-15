@@ -2,6 +2,10 @@ import express from "express";
 import React from "react";
 import ReactDOMServer from "react-dom/server";
 import App from "app/app";
+import { Provider } from 'react-redux';
+import createStore from 'app/store';
+import {Map, List} from "immutable";
+
 
 const Server = function(dataStore) {
   const app = express();
@@ -10,20 +14,26 @@ const Server = function(dataStore) {
   app.set('view engine', 'jade');
   app.use('/dist', express.static('dist'));
   app.get('/', (req, res) => {
-    const page = parseInt(req.query.page, 10) || 1;
-    const nbByPage = 20;
-    dataStore.getItems(page, nbByPage).then((items) => {
-      dataStore.countTotalItems().then((total) => {
-        const PROPS = {
-          items: items,
-          page: page
+
+    dataStore.getItems(1, 20, {})
+      .then((items) => {
+        const state = {
+          items: new Map({
+            items: new List(items),
+            fetching: false,
+            page: 1
+          })
         };
+        const store = createStore(state);
+
         const body = ReactDOMServer.renderToString(
-          React.createElement(App, PROPS)
+          <Provider store={store}>
+            <App />
+          </Provider>
         );
-        res.render('index', { body: body, props: PROPS});
+
+        res.render('index', {body, state});
       });
-    });
   });
 
   app.get('/api/items', (req, res, next) => {
