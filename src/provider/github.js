@@ -1,48 +1,46 @@
 import GitHubApi from 'github';
+import BPromise from 'bluebird';
 
 class Github {
+  constructor(config) {
+    this.user = config.user;
+  }
 
-    constructor(config) {
-        this.user = config.user;
-    }
+  getInfo() {
+    return {
+      'slug': 'github',
+      'name': 'Github',
+      'logo': 'https://github.com/favicon.ico'
+    };
+  }
 
-    getInfo() {
-        return {
-            'slug': 'github',
-            'name': 'Github',
-            'logo': 'https://github.com/favicon.ico'
-        };
-    }
+  getData() {
+    const github = new GitHubApi({
+      version: "3.0.0",
+      Promise: BPromise
+    });
 
-    getData() {
-        return new Promise((resolve, reject) => {
-            var github = new GitHubApi({
-                version: "3.0.0"
-            });
+    return github.activity.getStarredReposForUser({ user: this.user})
+      .then(res => {
+        if (!res instanceof Array) {
+          res = [];
+        }
 
-            github.repos.getStarredFromUser({ user: this.user}, (error, res) => {
-                if (error) {
-                    return reject(error);
-                }
-
-                if (!res instanceof Array) {
-                    res = [];
-                }
-
-                var repos = res.map((repo) => {
-                    return {
-                        id: repo.id,
-                        title: repo.full_name,
-                        text: repo.description,
-                        link: repo.html_url
-                    };
-                });
-
-                resolve(repos);
-            });
+        const repos = res.map((repo) => {
+          return {
+            id: repo.id,
+            title: repo.full_name,
+            text: repo.description,
+            link: repo.html_url
+          };
         });
-    }
 
+        return {
+          data: repos,
+          hasNextPage: !!github.hasNextPage(res)
+        };
+    });
+  }
 }
 
 export default Github;

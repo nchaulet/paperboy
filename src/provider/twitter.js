@@ -38,7 +38,10 @@ class Twitter {
 
         tweets = tweets.map((tweet) => this.formatTweet(tweet));
 
-        resolve(tweets);
+        resolve({
+          data: tweets,
+          hasNextPage: false
+        });
       });
     });
   }
