@@ -47,6 +47,10 @@ class DataStore {
       });
   }
 
+  clearItems() {
+    return this.knex('saved_item').del();
+  }
+
   countTotalItems() {
     return this.knex
       .count('id as count')

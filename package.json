@@ -10,7 +10,9 @@
     "start:watch": "NODE_PATH=. nodemon index.js",
     "build:watch": "NODE_PATH=. webpack --watch",
     "build": "NODE_PATH=. webpack",
-    "dev": "parallelshell 'npm run start:watch' 'npm run build:watch'"
+    "dev": "parallelshell 'npm run start:watch' 'npm run build:watch'",
+    "items:delete-all": "NODE_PATH=. node cli.js items:delete-all",
+    "items:fetch-all": "NODE_PATH=. node cli.js items:fetch-all"
   },
   "repository": {
     "type": "git",
