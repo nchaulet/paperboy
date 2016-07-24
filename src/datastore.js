@@ -26,6 +26,7 @@ class DataStore {
     this.knex('saved_item').insert({
       external_id: id.toString(),
       provider: provider,
+      created_at: data.created_at,
       data: JSON.stringify(data),
       sent: false
     }).then((id) => {
@@ -34,13 +35,16 @@ class DataStore {
   }
 
   getNotSentItems() {
-    return this.knex.select('*').from('saved_item').where('sent', '!=', '1').then((items) => {
-      items.forEach((item) => {
-        item.data = JSON.parse(item.data);
-      });
+    return this.knex.select('*')
+      .from('saved_item')
+      .where('sent', '!=', '1')
+      .then((items) => {
+        items.forEach((item) => {
+          item.data = JSON.parse(item.data);
+        });
 
-      return items;
-    });
+        return items;
+      });
   }
 
   countTotalItems() {
@@ -64,7 +68,7 @@ class DataStore {
     return qb
       .limit(nbByPage)
       .offset((page - 1) * nbByPage)
-      .orderBy('id', 'DESC')
+      .orderBy('created_at', 'DESC')
       .then((items) => {
         items.forEach((item) => {
           item.data = JSON.parse(item.data);

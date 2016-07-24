@@ -10,7 +10,7 @@ class App extends React.Component {
   }
 
   render() {
-    const {items, page, fetching} = this.props;
+    const {items, page, total, fetching} = this.props;
 
     return (
       <div className="container">
@@ -21,9 +21,16 @@ class App extends React.Component {
           `}
         </style>
         <h1>Paperboy</h1>
+        <hr />
         {fetching ?
-          "Loading" :
-          <ItemsList items={items} page={page} onPageClick={this.handlePageClick.bind(this)} />
+          (
+            <div>
+              Loading
+              <br/>
+              <i className="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+          ):
+          <ItemsList items={items} page={page} total={total} onPageClick={this.handlePageClick.bind(this)} />
         }
       </div>
     );
@@ -34,7 +41,8 @@ function stateToProps(state) {
   return {
     items: state.items.get('items'),
     fetching: state.items.get('fetching'),
-    page: state.items.get('page')
+    page: state.items.get('page'),
+    total: state.items.get('total')
   };
 };
 

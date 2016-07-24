@@ -9,7 +9,8 @@ const state = {
   items: new Map({
     items: window.__STATE.items.items,
     fetching: window.__STATE.items.fetching,
-    page: window.__STATE.items.page
+    page: window.__STATE.items.page,
+    total: window.__STATE.items.total
   })
 };
 

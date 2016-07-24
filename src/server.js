@@ -15,24 +15,29 @@ const Server = function(dataStore) {
   app.use('/dist', express.static('dist'));
   app.get('/', (req, res) => {
 
-    dataStore.getItems(1, 20, {})
+    const page = parseInt(req.query.page, 10) || 1;
+
+    dataStore.getItems(page, 20, {})
       .then((items) => {
-        const state = {
-          items: new Map({
-            items: new List(items),
-            fetching: false,
-            page: 1
-          })
-        };
-        const store = createStore(state);
+        return dataStore.countTotalItems().then((total) => {
+          const state = {
+            items: new Map({
+              items: new List(items),
+              total: total,
+              fetching: false,
+              page: page
+            })
+          };
+          const store = createStore(state);
 
-        const body = ReactDOMServer.renderToString(
-          <Provider store={store}>
-            <App />
-          </Provider>
-        );
+          const body = ReactDOMServer.renderToString(
+            <Provider store={store}>
+              <App />
+            </Provider>
+          );
 
-        res.render('index', {body, state});
+          res.render('index', {body, state});
+        });
       });
   });
 

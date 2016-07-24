@@ -5,7 +5,7 @@ exports.up = function(knex, Promise) {
         return;
     }
 
-    knex.schema.createTable('saved_item', function (table) {
+    return knex.schema.createTable('saved_item', function (table) {
       table.increments();
       table.string('external_id');
       table.string('provider');
