@@ -47,7 +47,7 @@ class ItemsTemplate extends React.Component {
         <nav className="text-center">
           <ul className="pagination">
             {page > 1 ? (
-              <li><a onClick={e => onPageClick(e, page - 1)} href={`/?page=1`}>{"<<"}</a></li>
+              <li><a onClick={e => onPageClick(e, 1)} href={`/?page=1`}>{"<<"}</a></li>
             ) : null}
             {page > 1 ? (
               <li><a onClick={e => onPageClick(e, page - 1)} href={`/?page=${page - 1}`}>{page - 1}</a></li>
