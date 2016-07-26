@@ -1,4 +1,4 @@
-import jade from 'jade';
+import pug from 'pug';
 import _ from 'lodash';
 import moment from 'moment';
 
@@ -11,7 +11,7 @@ class Mailer {
     items = _.groupBy(items, 'provider');
     const providers = _.keys(items);
 
-    return jade.renderFile('template/mail.jade', {
+    return pug.renderFile('template/mail.pug', {
       items: items,
       providers: providers
     });

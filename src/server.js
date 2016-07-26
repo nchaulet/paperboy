@@ -11,7 +11,7 @@ const Server = function(dataStore) {
   const app = express();
 
   app.set('views', './template')
-  app.set('view engine', 'jade');
+  app.set('view engine', 'pug');
   app.use('/dist', express.static('dist'));
   app.get('/', (req, res) => {
 

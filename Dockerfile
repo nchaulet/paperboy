@@ -1,4 +1,4 @@
-FROM node:4.2
+FROM node:6
 
 WORKDIR /app
 RUN npm install -g nodemon
