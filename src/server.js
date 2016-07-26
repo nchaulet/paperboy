@@ -13,6 +13,8 @@ const Server = function(dataStore) {
   app.set('views', './template')
   app.set('view engine', 'pug');
   app.use('/dist', express.static('dist'));
+  app.use(express.static('public'));
+
   app.get('/', (req, res) => {
 
     const page = parseInt(req.query.page, 10) || 1;
