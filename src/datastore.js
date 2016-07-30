@@ -1,3 +1,13 @@
+import BPromise from "bluebird";
+
+function filterQuery(qb, filters) {
+  if (filters.provider) {
+    return qb.where('provider', filters.provider);
+  }
+
+  return qb;
+}
+
 class DataStore {
   constructor(knex) {
     this.knex = knex;
@@ -51,25 +61,11 @@ class DataStore {
     return this.knex('saved_item').del();
   }
 
-  countTotalItems() {
-    return this.knex
-      .count('id as count')
-      .from('saved_item')
-      .then(function(results) {
-          return results[0].count;
-      });
-  }
-
   getItems(page = 1, nbByPage = 10, filters = {}) {
-    let qb = this.knex
-      .select('*')
-      .from('saved_item');
-
-    if (filters.provider) {
-      qb = qb.where('provider', filters.provider);
-    }
-
-    return qb
+    const select_qb = filterQuery(
+        this.knex.select('*').from('saved_item'),
+        filters
+      )
       .limit(nbByPage)
       .offset((page - 1) * nbByPage)
       .orderBy('created_at', 'DESC')
@@ -80,6 +76,20 @@ class DataStore {
 
         return items;
       });
+
+    const count_qb = filterQuery(
+      this.knex.count('id as count').from('saved_item'),
+      filters
+    ).then(function(results) {
+      return results[0].count;
+    });
+
+    return BPromise.join(select_qb, count_qb, (items, count) => {
+      return {
+        items,
+        total: count
+      };
+    });
   }
 }
 

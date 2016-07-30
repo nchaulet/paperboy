@@ -25,7 +25,7 @@ class App extends React.Component {
         {fetching ?
           (
             <h2 className="text-center">
-              <i className="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+              <i className="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
             </h2>
           ):
           <ItemsList items={items} page={page} total={total} onPageClick={this.handlePageClick.bind(this)} />

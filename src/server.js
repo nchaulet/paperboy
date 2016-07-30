@@ -20,12 +20,11 @@ const Server = function(dataStore) {
     const page = parseInt(req.query.page, 10) || 1;
 
     dataStore.getItems(page, 20, {})
-      .then((items) => {
-        return dataStore.countTotalItems().then((total) => {
+      .then(data => {
           const state = {
             items: new Map({
-              items: new List(items),
-              total: total,
+              items: new List(data.items),
+              total: data.total,
               fetching: false,
               page: page
             })
@@ -39,7 +38,6 @@ const Server = function(dataStore) {
           );
 
           res.render('index', {body, state});
-        });
       });
   });
 
@@ -52,15 +50,13 @@ const Server = function(dataStore) {
       filters.provider = req.query.provider;
     }
 
-    dataStore.getItems(page, nbByPage, filters).then((items) => {
-        dataStore.countTotalItems().then((total) => {
-            res.send({
-                data: items,
-                total: total,
-                page: page
-            });
-        });
+    dataStore.getItems(page, nbByPage, filters).then(data => {
+      res.send({
+          data: data.items,
+          total: data.total,
+          page: page
       });
+    });
   });
 
   console.log('Server listening on port 8080');
