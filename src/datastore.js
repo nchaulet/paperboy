@@ -5,6 +5,10 @@ function filterQuery(qb, filters) {
     return qb.where('provider', filters.provider);
   }
 
+  if (filters.query) {
+    return qb.where('data', 'like', `%${filters.query}%`);
+  }
+
   return qb;
 }
 

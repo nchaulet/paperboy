@@ -49,6 +49,9 @@ const Server = function(dataStore) {
     if (req.query.provider) {
       filters.provider = req.query.provider;
     }
+    if (req.query.query) {
+      filters.query = req.query.query;
+    }
 
     dataStore.getItems(page, nbByPage, filters).then(data => {
       res.send({
