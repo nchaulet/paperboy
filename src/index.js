@@ -23,6 +23,7 @@ var transport = nodemailer.createTransport(smtpTransport(config.smtp_config));
 var mailer = new Mailer(transport);
 
 var sendMailJob = new SendMailJob(container.dataStore, mailer, logger);
+
 var user = {
   email: config.user_email
 };

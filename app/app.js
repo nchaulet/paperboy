@@ -33,20 +33,22 @@ class App extends React.Component {
             .items-listing--item {padding: 5px;}
             .items-listing--item:nth-child(odd) {background: #FBFBFB;}
 
-            .search-bar input {border: none; margin: 0 10px;}
+            .search-bar {position: relative; width: 100%;}
+            .search-bar i{position: absolute; left: 3px; top: 3px;}
+            .search-bar input {border: none; padding: 0 20px; width: 100%;}
           `}
         </style>
         <h1>Paperboy</h1>
         <hr />
         <div className="search-bar">
-          <i className="fa fa-search" />
+          <i className="fa fa-search pull-left" />
           <input type="text" placeholder="search ..." onChange={e => this.handleSearch(e)} />
         </div>
         {fetching ?
           (
-            <h2 className="text-center">
+            <div className="text-center">
               <i className="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
-            </h2>
+            </div>
           ):
           <ItemsList items={items} page={page} total={total} onPageClick={this.handlePageClick.bind(this)} />
         }
