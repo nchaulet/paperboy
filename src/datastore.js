@@ -1,8 +1,8 @@
 import BPromise from "bluebird";
 
 function filterQuery(qb, filters) {
-  if (filters.provider) {
-    return qb.where('provider', filters.provider);
+  if (filters.providers) {
+    return qb.where('provider', 'in', filters.providers);
   }
 
   if (filters.query) {

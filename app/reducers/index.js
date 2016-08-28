@@ -2,10 +2,12 @@
 
 import {Map, List} from "immutable";
 
-export function searchInfo(state = new Map({page: 1, query: null}), action) {
+export function searchInfo(state = new Map({page: 1, query: null, github: true, twitter: true}), action) {
   switch (action.type) {
     case 'UPDATE_SEARCHINFO_PAGE':
       return state.set('page', action.data);
+    case 'UPDATE_SEARCHINFO_PROVIDER':
+      return state.set(action.data.provider, action.data.state);
     case 'UPDATE_SEARCHINFO_QUERY':
       return state
         .set('page', 1)
@@ -17,8 +19,7 @@ export function searchInfo(state = new Map({page: 1, query: null}), action) {
 const DEFAULT_ITEMS_STATE = Map({
   items: List(),
   fetching: false,
-  total: 0,
-  query: null
+  total: 0
 });
 
 export function items(state = DEFAULT_ITEMS_STATE, action) {

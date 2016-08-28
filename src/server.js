@@ -46,9 +46,8 @@ const Server = function(dataStore) {
     const nbByPage = 20;
 
     const filters = {};
-    if (req.query.provider) {
-      filters.provider = req.query.provider;
-    }
+    filters.providers = req.query.providers || [];
+
     if (req.query.query) {
       filters.query = req.query.query;
     }
