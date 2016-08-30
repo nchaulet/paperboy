@@ -1,15 +1,16 @@
 import BPromise from "bluebird";
 
 function filterQuery(qb, filters) {
+  let filter_qb = qb;
   if (filters.providers) {
-    return qb.where('provider', 'in', filters.providers);
+    filter_qb = filter_qb.andWhere('provider', 'in', filters.providers);
   }
 
   if (filters.query) {
-    return qb.where('data', 'like', `%${filters.query}%`);
+    filter_qb.andWhere('data', 'like', `%${filters.query}%`);
   }
 
-  return qb;
+  return filter_qb;
 }
 
 class DataStore {
