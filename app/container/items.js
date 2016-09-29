@@ -1,27 +1,7 @@
 import React from 'react';
+import Item from '../component/item';
 
 class ItemsTemplate extends React.Component {
-
-  renderProviderIcon(provider) {
-
-    if (provider === "github") {
-      return (
-        <i className="fa fa-github"></i>
-      );
-    }
-
-    if (provider === "twitter") {
-      return (
-        <i className="fa fa-twitter"></i>
-      );
-    }
-
-    return null;
-    return (
-      <i className="fa fa-github"></i>
-    );
-  }
-
   render() {
     const {items, onPageClick, page, total} = this.props;
 
@@ -32,16 +12,8 @@ class ItemsTemplate extends React.Component {
         <div className="items-listing">
           {items.map(item => {
             return (
-              <div className="items-listing--item" key={item.id}>
-                <div>
-                  {this.renderProviderIcon(item.provider)}{" "}
-                  {item.data.title ? item.data.title + " : " : ""}
-                  {item.data.text}
-                  <br/>
-                  <a href={item.data.link}>See more</a>
-                </div>
-              </div>
-            );
+              <Item key={item.id} item={item} />
+            )
           })}
         </div>
         <nav className="text-center">
