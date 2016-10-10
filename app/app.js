@@ -1,5 +1,6 @@
 import React from "react";
 import {changePage, filterQuery, filterProvider} from "./actionsCreator";
+import AppBar from './component/AppBar';
 import ItemsList from './container/items';
 import { connect } from 'react-redux';
 import { debounce } from 'lodash';
@@ -42,30 +43,31 @@ class App extends React.Component {
     `;
 
     return (
-      <div className="container">
+      <div>
         <style dangerouslySetInnerHTML={{__html: style}}/>
-        <h1>Paperboy</h1>
-        <hr />
-        <div className="search-bar">
-          <i className="fa fa-search pull-left" />
-          <input type="text" placeholder="search ..." onChange={e => this.handleSearch(e)} />
-          <div className="filters">
-            <label>
-              <input type="checkbox" checked={twitter} onChange={() => this.toggleProvider('twitter')} /> Twitter
-            </label>
-            <label>
-              <input type="checkbox" checked={github} onChange={() => this.toggleProvider('github')} /> Github
-            </label>
-          </div>
-        </div>
-        {fetching ?
-          (
-            <div className="text-center">
-              <i className="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+        <AppBar />
+        <div className="container">
+          <div className="search-bar">
+            <i className="fa fa-search pull-left" />
+            <input type="text" placeholder="search ..." onChange={e => this.handleSearch(e)} />
+            <div className="filters">
+              <label>
+                <input type="checkbox" checked={twitter} onChange={() => this.toggleProvider('twitter')} /> Twitter
+              </label>
+              <label>
+                <input type="checkbox" checked={github} onChange={() => this.toggleProvider('github')} /> Github
+              </label>
             </div>
-          ):
-          <ItemsList items={items} page={page} total={total} onPageClick={this.handlePageClick.bind(this)} />
-        }
+          </div>
+          {fetching ?
+            (
+              <div className="text-center">
+                <i className="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+              </div>
+            ):
+            <ItemsList items={items} page={page} total={total} onPageClick={this.handlePageClick.bind(this)} />
+          }
+        </div>
       </div>
     );
   }
