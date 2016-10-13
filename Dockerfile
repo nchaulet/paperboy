@@ -2,10 +2,13 @@ FROM node:6
 
 VOLUME ["/data"]
 
+RUN npm install -g nodemon
+RUN npm install -g yarn
+
 WORKDIR /app
 ADD ./package.json /app/package.json
-RUN npm install
-RUN npm install -g nodemon
+RUN yarn install
+
 CMD nodemon --exec NODE_PATH=. node index.js
 
 EXPOSE 8080
