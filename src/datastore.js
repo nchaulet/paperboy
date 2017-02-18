@@ -18,6 +18,14 @@ class DataStore {
     this.knex = knex;
   }
 
+  deleteItem(id) {
+    return this.knex('users')
+      .where('id', id)
+      .update({
+        deleted: true
+      });
+  }
+
   getItem(id, provider) {
     return this.knex.select('*').from('saved_item').where({
       external_id: id.toString(),
@@ -33,7 +41,6 @@ class DataStore {
   sendMessages() {
     this.knex('saved_item').update({
       'sent': true
-    }).then(() => {
     });
   }
 
@@ -66,11 +73,14 @@ class DataStore {
     return this.knex('saved_item').del();
   }
 
-  getItems(page = 1, nbByPage = 10, filters = {}) {
+  getItems(page = 1, nbByPage = 20, filters = {}) {
     const select_qb = filterQuery(
         this.knex.select('*').from('saved_item'),
         filters
       )
+      .andWhere(function() {
+        this.where('deleted', null).orWhere('deleted', false)
+      })
       .limit(nbByPage)
       .offset((page - 1) * nbByPage)
       .orderBy('created_at', 'DESC')
