@@ -5,7 +5,7 @@ import App from "app/app";
 import { Provider } from 'react-redux';
 import createStore from 'app/store';
 import {Map, List} from "immutable";
-
+import Mailer from "./mailer";
 
 const Server = function(dataStore) {
   const app = express();
@@ -39,6 +39,11 @@ const Server = function(dataStore) {
 
           res.render('index', {body, state});
       });
+  });
+
+  app.get('/mail/preview', (res, res, next) => {
+    // TODO
+    res.send(404);
   });
 
   app.get('/api/items', (req, res, next) => {

@@ -1,19 +1,31 @@
-html
+doctype html
+html(lang='en')
+  head
+    meta(http-equiv='Content-Type', content='text/html; charset=UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    title
+    style(type='text/css').
+  ml
   head
     style.
       h4 {
         margin: 0;
       }
-  body
-    div
-      h1 Paperboy Report
-      ul
-        each provider in providers
-          h2= provider
-          each item in items[provider]
-            li
-              div
-                h4= item.data.title
-                = item.data.text
-                br
-                a(href=item.data.link) See more
+  body(style='margin:0; padding:0; background-color:#F2F2F2;')
+    center
+      table(width='100%', border='0', cellpadding='0', cellspacing='0', bgcolor='#F2F2F2')
+        tr
+          td(align='center', valign='top')
+            Paperboy Report
+        tr
+          td(align='center', valign='top')
+          each provider in providers
+            h2= provider
+            each item in items[provider]
+              li
+                div
+                  h4= item.data.title
+                  = item.data.text
+                  br
+                  a(href=item.data.link) See more
