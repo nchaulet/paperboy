@@ -16,7 +16,6 @@ const Server = function(dataStore) {
   app.use(express.static('public'));
 
   app.get('/', (req, res) => {
-
     const page = parseInt(req.query.page, 10) || 1;
 
     dataStore.getItems(page, 20, {})
@@ -41,11 +40,6 @@ const Server = function(dataStore) {
       });
   });
 
-  app.get('/mail/preview', (res, res, next) => {
-    // TODO
-    res.send(404);
-  });
-
   app.get('/api/items', (req, res, next) => {
     const page = parseInt(req.query.page, 10) || 1;
     const nbByPage = 20;
@@ -57,13 +51,15 @@ const Server = function(dataStore) {
       filters.query = req.query.query;
     }
 
-    dataStore.getItems(page, nbByPage, filters).then(data => {
-      res.send({
-          data: data.items,
-          total: data.total,
-          page: page
-      });
-    });
+    dataStore.getItems(page, nbByPage, filters)
+      .then(data => {
+        res.send({
+            data: data.items,
+            total: data.total,
+            page: page
+        });
+      })
+      .catch(next);
   });
 
   console.log('Server listening on port 8080');
