@@ -19,7 +19,7 @@ class DataStore {
   }
 
   deleteItem(id) {
-    return this.knex('users')
+    return this.knex('saved_item')
       .where('id', id)
       .update({
         deleted: true
